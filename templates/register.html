@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">{{ title }}</h2>
+    <form method="POST" action="{{ url_for('register') if title=='Register' else url_for('event_register') }}" class="mx-auto" style="max-width: 600px;">
+        <div class="mb-3">
+            <label for="username" class="form-label">Name</label>
+            <input type="text" class="form-control" id="username" name="username" required value="{{ request.form.get('username', '') }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required value="{{ request.form.get('email', '') }}">
+        </div>
+
+        {% if title == 'Event Registration' %}
+        <div class="mb-3">
+            <label for="event_name" class="form-label">Event Name</label>
+            <input type="text" class="form-control" id="event_name" name="event_name" required value="{{ request.form.get('event_name', '') }}">
+        </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}
