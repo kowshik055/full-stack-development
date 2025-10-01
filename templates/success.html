@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center">
+  <h2 class="text-success">Welcome, {{ name }}!</h2>
+  <p>Your registration has been recorded successfully.</p>
+
+  <hr>
+  <h4>All Registered Users:</h4>
+  <ul class="list-group mx-auto" style="max-width: 600px;">
+    {% for user in registrations %}
+      <li class="list-group-item">
+        <strong>{{ user.name }}</strong> ({{ user.email }})
+      </li>
+    {% else %}
+      <li class="list-group-item">No registrations yet.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{{ url_for('home') }}" class="btn btn-secondary mt-4">Go Home</a>
+</div>
+{% endblock %}

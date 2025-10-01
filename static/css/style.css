@@ -1,0 +1,17 @@
+.event-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+  border-radius: 12px;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.modal-content {
+  border-radius: 15px;
+}
+
+.modal-body h5 {
+  font-weight: 600;
+}
