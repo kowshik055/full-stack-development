@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mb-4">Upcoming Events</h2>
+
+<!-- Display Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="row justify-content-center">
+  {% for event in events %}
+  <div class="col-md-4">
+    <div class="card shadow-sm mb-4 event-card">
+      <div class="card-body text-center">
+        <h5 class="card-title text-primary">{{ event.name }}</h5>
+        <p class="card-text"><strong>Date:</strong> {{ event.date }}</p>
+        <p class="card-text"><strong>Venue:</strong> {{ event.venue }}</p>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#registerModal"
+          data-event="{{ event.name }}">Register</button>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ url_for('event_register') }}" method="POST">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="registerModalLabel">Event Registration</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="event_name" name="event_name">
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" name="name" id="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" id="email" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success w-100">Register Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Automatically insert event name into modal input
+  var registerModal = document.getElementById('registerModal');
+  registerModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var eventName = button.getAttribute('data-event');
+    var inputEvent = registerModal.querySelector('#event_name');
+    inputEvent.value = eventName;
+    registerModal.querySelector('#registerModalLabel').textContent = "Register for " + eventName;
+  });
+</script>
+{% endblock %}
